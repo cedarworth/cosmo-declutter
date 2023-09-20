@@ -1,36 +1,27 @@
-import React from "react";
-import {Link} from "react-router-dom"
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import Sidebar from "./Sidebar";    
 
 
 const Navbar = ({ isLoggedin }) => {
-
   return (
-    
     <header className="header">
       <div className="logo">
         <h1>
           <Link to="/">CosmoDeclutter</Link>
         </h1>
       </div>
+      
       {isLoggedin ? (
         <div className="container">
           <div className="cart" id="cartLoads">
-            <Link to="cart.html">
+            <Link to="/CartPage">
               <i className="bi bi-cart2"></i>
               <div id="cartAmount" className="cartAmount">
                 0
               </div>
             </Link>
           </div>
-
-          {/* <!-- Navigation icons --> */}
-          <div className="navigation">
-            <i id="open" className="bi bi-list"></i>
-            <i id="close" className="bi bi-x-lg hide"></i>
-          </div>
-
-          {/* <!-- menu items --> */}
-
           <div id="menu" className="menu-list">
             <div className="nav-item">
               <input type="radio" name="nav" id="a" />
@@ -81,11 +72,11 @@ const Navbar = ({ isLoggedin }) => {
               </label>
             </div>
           </div>
+          <Sidebar />
         </div>
       ) : null}
     </header>
   );
-
 };
 
 export default Navbar;

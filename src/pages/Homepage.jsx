@@ -1,28 +1,22 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import Navbar from '../components/layout/Navbar'
 import { useNavigate } from 'react-router-dom'
-import Navigation from '../components/layout/Navigation'
+// import HomeIcon from '@mui/icons-material/Home';
+import ProductCard from './ProductCard'
+import '../styles.css'
+
+// //my api key a5d8bd7ade
+// const API_URL = 'http://www.omdbapi.com?apikey=a5d8bd7a'
 
 const Homepage = ({user}) => {
   const navigate = useNavigate()
 
-
-  // useEffect(() => {
-  //   if (user === null) {
-  //     navigate("/login")
-  //   }
-  // }, [user, navigate])
-
-
-
-
   return (
     <div>
-        <Navbar isLoggedin/>
-          <div className="shop" id="shop">
-            
-          </div>
-
+      <Navbar isLoggedin/>
+        <div className="shop" id="shop">
+          <ProductCard />
+        </div>
     </div>
   )
 }
