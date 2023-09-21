@@ -21,11 +21,9 @@ const LoginPage = ({ setUser }) => {
       const data = res.data;
       console.log(data);
 
-      setUser({ emailInput, passwordInput });
-      console.log({ emailInput, passwordInput });
+      setUser(data); // Store only the data returned from the server
       navigate("/");
     } catch (err) {
-      console.log(err);
       setError(err.response.data.message)
     }
   };
@@ -34,12 +32,13 @@ const LoginPage = ({ setUser }) => {
     <div>
       <Navbar />
       {/* <!--Login form--> */}
-      <div class="login">
-        <h2>Welcome Back</h2>
+      <div className="login">
+        <h2>Welcome Back to</h2>
+        <img id="reg-img" src="../assets/img-51.png" width="auto" height="auto" alt="" />
         <h3>Please Login</h3>
         <p>Kindly fill out the fields with the required information</p>
+        {error && <p>{error}</p>} {/* Display error messages */}
         <form onSubmit={handleSubmit}>
-          {!!error && error}
           <fieldset>
             <label>
               Enter Your Email:{" "}
@@ -52,7 +51,7 @@ const LoginPage = ({ setUser }) => {
                 required
               />
             </label>
-            <label for="new-password">
+            <label htmlFor="new-password">
               Enter Your Password:{" "}
               <input
                 id="new-password"

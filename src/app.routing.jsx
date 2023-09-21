@@ -17,8 +17,8 @@ const AppRoutes = ({user, setUser}) => {
         <Route path='/cart' element={<CartPage />} />
         <Route path='/profile' element={<ProfilePage />} />
         <Route path='/checkout' element={<CheckoutPage />} />
-        {/* <Route path='/products/:id' element={<ProductPage />} /> */}
-        <Route path='*' element={<h1>Error 404: Page not found</h1>} />
+        {/* <Route path='/product' element={<ProductPage />} /> */}
+        {/* <Route path='*' element={<h1>Error 404: Page not found</h1>} /> */}
     </Routes>
   )
 }

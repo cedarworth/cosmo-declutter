@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Navbar from '../components/layout/Navbar'
 import { useNavigate } from 'react-router-dom'
-// import HomeIcon from '@mui/icons-material/Home';
 import ProductCard from './ProductCard'
 import '../styles.css'
 

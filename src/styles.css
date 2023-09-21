@@ -173,12 +173,12 @@ input[type="submit"] {
 * ?  base styles for h1, h2 etc....
 **/
 
-.welcome {
+/* .welcome {
   margin: 0 auto;
   width: 60vw;
   max-width: 500px;
   min-width: 300px;
-}
+} */
 
 .login {
   margin: 0 auto;
@@ -187,10 +187,10 @@ input[type="submit"] {
   min-width: 300px;
 }
 
-.welcome > h2 h3 h4 p {
+/* .welcome > h2 h3 h4 p{
   margin-top: 15px;
   text-align: center;
-}
+} */
 form {
   width: 60vw;
   max-width: 500px;
@@ -291,7 +291,11 @@ input[type="submit"] {
 
 .item {
   border: 1px solid gray;
-  border-radius: 5px;
+  border-radius: 2px;
+}
+
+.item img {
+  border-radius: 4px none;
 }
 
 .details {
@@ -299,17 +303,27 @@ input[type="submit"] {
   flex-direction: column;
   padding: 10px;
   gap: 10px;
+  background-color: rgb(240, 248, 248);
 }
 
 .price-quantity {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: first baseline;
 }
 
 .buttons {
   display: flex;
+  justify-content: space-between;
   gap: 8px;
+}
+
+.quantity {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 5px;
 }
 
 .bi-dash-lg {
@@ -351,6 +365,11 @@ p {
   margin-top: 120px;
 }
 
+#reg-img {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .shopping-cart {
   display: grid;
 }
@@ -359,8 +378,7 @@ p {
 **/
 .sidebar {
   position: fixed;
-  right: -0.5em;
-  transition: 0.5s;
+  right: -0.9em;
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
@@ -376,8 +394,23 @@ p {
   opacity: 0.8;
 }
 
+.sidebar p {
+  margin-top: -30px;
+  text-decoration: none;
+  color: #fff;
+  font-size: 16px;
+  padding: 7px 13px;
+  border-radius: 3px;
+  text-transform: uppercase;
+}
+
+.sidebar p:hover {
+  background: #ecf1f5;
+  color: black;
+  transition: 0.5s;
+}
 .sidebar.open {
-  width: 230px;
+  width: 250px;
   
 }
 

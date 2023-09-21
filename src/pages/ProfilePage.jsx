@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import Navbar from "../components/layout/Navbar";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import '../styles.css';
 
 const ProfilePage = () => {
-    const [item, setItem] = useState({
+    const [user, setUser] = useState({
         id: '',
-        image: null,
+        image: '',
         name: '',
         description: '',
         price: '',
@@ -12,18 +16,31 @@ const ProfilePage = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setItem(prevState => ({
+        setUser(prevState => ({
             ...prevState,
             [name]: value
         }));
     };
 
     const handleImageUpload = (e) => {
-        setItem(prevState => ({
+        setUser(prevState => ({
             ...prevState,
             image: URL.createObjectURL(e.target.files[0])
         }));
     };
+
+    useEffect(() => {
+      const fetchUser = async () => {
+          try {
+              const res = await axios.get('/api/profile');
+              setUser(res.data);
+          } catch (err) {
+              console.log(err);
+          }
+      };
+
+      fetchUser();
+  }, []);
 
     return (
         <div className="user-profile">
@@ -31,28 +48,28 @@ const ProfilePage = () => {
             <form>
                 <label>
                     ID:
-                    <input type="text" name="id" value={item.id} onChange={handleChange} />
+                    <input type="text" name="id" value={user.id} onChange={handleChange} />
                 </label>
                 <label>
                     Image:
                     <input type="file" onChange={handleImageUpload} />
-                    {item.image && <img src={item.image} alt="Preview" />}
+                    {user.image && <img src={user.image} alt="Preview" />}
                 </label>
                 <label>
                     Name:
-                    <input type="text" name="name" value={item.name} onChange={handleChange} />
+                    <input type="text" name="name" value={user.name} onChange={handleChange} />
                 </label>
                 <label>
                     Description:
-                    <textarea name="description" value={item.description} onChange={handleChange} />
+                    <textarea name="description" value={user.description} onChange={handleChange} />
                 </label>
                 <label>
                     Price:
-                    <input type="number" name="price" value={item.price} onChange={handleChange} />
+                    <input type="number" name="price" value={user.price} onChange={handleChange} />
                 </label>
                 <label>
                     Location:
-                    <input type="text" name="location" value={item.location} onChange={handleChange} />
+                    <input type="text" name="location" value={user.location} onChange={handleChange} />
                 </label>
                 <button type="submit">Submit</button>
             </form>

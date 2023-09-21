@@ -4,7 +4,7 @@ import '../styles.css';
 const ProductCard = () => {
     const product = {
         id: 1,
-        image: '../public/assets/img-4.jpg',
+        image: '../assets/img-4.jpg',
         name: 'Tablet',
         description: 'This is a 14inches tablet',
         price: 10000,
@@ -27,18 +27,21 @@ const ProductCard = () => {
         <div className="item">
           <img width="221" height="260" src={product.image} alt="" />
           <div className="details">
-            <h2>{product.name}</h2>
-            <p>{product.description}</p>
+            <span>Item: <strong>{product.name}</strong></span>
+            <p>Desc: {product.description}</p>
             <div className="price-quantity">
               <p>Price: N{product.price}</p>
-              <i class="bi bi-cart4"></i>
-              <div className="buttons">
-                <i class="bi bi-dash-lg" onClick={removeFromCart}></i>
-                <span className="quantity">{count}</span>
-                <i class="bi bi-plus-lg" onClick={addToCart}></i>
-              </div>
+              <p>Location: {product.location}</p>
             </div>
-            <p>Location: {product.location}</p>
+            
+              <div className="buttons">
+                <i class="bi bi-cart4">Add tocart:</i>
+                <div className="quantity">
+                  <i class="bi bi-dash-lg" onClick={removeFromCart}></i>
+                  <span className="quantity">{count}</span>
+                  <i class="bi bi-plus-lg" onClick={addToCart}></i>
+                </div>
+              </div>
           </div>
         </div>
     );

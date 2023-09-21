@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+// import Navbar from '../components/layout/Navbar';
 
-const Cart = () => {
+const CartPage = () => {
     const [cartItems, setCartItems] = useState([
         // This is where your cart items would go in a real app
         // Each item should be an object with properties for id, name, price, etc.
@@ -12,7 +13,7 @@ const Cart = () => {
 
     return (
         <div className="cart">
-            <h2>Your Cart</h2>
+            <h2>Your CartPage</h2>
             {cartItems.length === 0 ? (
                 <p>Your cart is empty.</p>
             ) : (
@@ -20,7 +21,7 @@ const Cart = () => {
                     <div key={item.id} className="cart-item">
                         <h3>{item.name}</h3>
                         <p>Price: {item.price}</p>
-                        <button onClick={() => handleRemoveFromCart(item.id)}>Remove from Cart</button>
+                        <button onClick={() => handleRemoveFromCart(item.id)}>Remove from CartPage</button>
                     </div>
                 ))
             )}
@@ -28,4 +29,4 @@ const Cart = () => {
     );
 };
 
-export default Cart;
+export default CartPage;

@@ -9,27 +9,31 @@ const RegisterPage = ({ setUser }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
     try {
-      e.preventDefault();
       const res = await axios.post("http://localhost:4000/api/auth/register", {
-        firstName: firstName,
+        firstName,
         lastName,
-        password,
         email,
-        confirmPassword,
+        password,
       });
 
       const data = res.data;
       console.log(data);
 
-      setUser({ email, password, firstName, lastName });
-      console.log({ email, password, firstName, lastName });
-      navigate("/");
+      setUser(data); // Store only the data returned from the server
+      navigate("/LoginPage");
     } catch (err) {
       console.log(err.response.data);
+      setError(err.response.data.message);
     }
   };
 
@@ -37,8 +41,10 @@ const RegisterPage = ({ setUser }) => {
     <div>
       <Navbar />
       <div className="register">
-        <h2>Welcome to CosmoDeclutter!</h2>
+        <h2>Welcome to</h2>
+        <img id="reg-img" src="../assets/img-51.png" width="auto" height="auto" alt="" />
         <p>Please fill out this form with the required informations</p>
+        {error && <p>{error}</p>} {/* Display error messages */}
         <form onSubmit={handleSubmit}>
           <fieldset>
             <label htmlFor="first-name">Enter Your First Name: </label>
@@ -87,7 +93,7 @@ const RegisterPage = ({ setUser }) => {
               required
             />
           </fieldset>
-          <input type="submit" value="Register" />
+          <input onClick={() => {}} type="submit" value="Register" />
           <p>
             Already registered? Please login <Link to="/login">here</Link>
           </p>
