@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
+// import { Link } from 'react-router-dom';
 // import Navbar from '../components/layout/Navbar';
 
 const CartPage = () => {
     const [cartItems, setCartItems] = useState([
-        // This is where your cart items would go in a real app
-        // Each item should be an object with properties for id, name, price, etc.
+        
     ]);
 
     const handleRemoveFromCart = (itemId) => {

@@ -1,65 +1,42 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import Sidebar from "./Sidebar";    
+import Sidebar from "./Sidebar"; 
+import '../../styles.css' 
+import { useCart } from "../../providers/CartProvider";
 
 
-const Navbar = ({ isLoggedin }) => {
+const Navbar = ({ user, loginPage }) => {
+  const {cart, setCart} = useCart()
+
   return (
     <header className="header">
       <div className="logo">
-        <h1>
-          <Link to="/">CosmoDeclutter</Link>
-        </h1>
+          <Link to="/"><img
+          id="nav-img"
+          src="../assets/logo_4.png"
+          width="250"
+          height="150"
+          alt=""
+        /></Link>
       </div>
       
-      {isLoggedin ? (
+      {!loginPage ? (
         <div className="container">
           <div className="cart" id="cartLoads">
             <Link to="/CartPage">
               <i className="bi bi-cart2"></i>
               <div id="cartAmount" className="cartAmount">
-                0
+                {cart.length}
               </div>
             </Link>
           </div>
+
           <div id="menu" className="menu-list">
-            <div className="nav-item">
-              <input type="radio" name="nav" id="a" />
-              <label htmlFor="a">
-                <Link to="/" className="nav-link">
-                  Home
-                </Link>
-              </label>
-            </div>
-            <div className="nav-item">
-              <input type="radio" name="nav" id="b" />
-              <label htmlFor="b">
-                <Link to="#about" className="nav-link">
-                  About
-                </Link>
-              </label>
-            </div>
-            <div className="nav-item">
-              <input type="radio" name="nav" id="c" />
-              <label htmlFor="c">
-                <Link to="#news" className="nav-link">
-                  News
-                </Link>
-              </label>
-            </div>
-            <div className="nav-item">
-              <input type="radio" name="nav" id="d" />
-              <label htmlFor="d">
-                <Link to="#testimonials" className="nav-link">
-                  Testimonials
-                </Link>
-              </label>
-            </div>
             <div className="nav-item">
               <input type="radio" name="nav" id="e" />
               <label htmlFor="e">
-                <Link to="#contact" className="nav-link">
-                  Contact
+                <Link to="/profile" className="nav-link">
+                  Profile
                 </Link>
               </label>
             </div>
@@ -67,12 +44,12 @@ const Navbar = ({ isLoggedin }) => {
               <input type="radio" name="nav" id="f" />
               <label htmlFor="f">
                 <Link to="/login" className="nav-link">
-                  login
+                {!!user ? "logout" : "login"}
                 </Link>
               </label>
             </div>
           </div>
-          <Sidebar />
+          <Sidebar user={user}/>
         </div>
       ) : null}
     </header>

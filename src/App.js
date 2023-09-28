@@ -1,12 +1,19 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import AppRoutes from "./app.routing";
-import Navbar from "./components/layout/Navbar";
+import "./styles.css";
+import CartProvider from "./providers/CartProvider";
+import UserProvider from "./providers/UserProvider";
+import { useGetUser } from "./hooks/UseGetUser";
 
 function App() {
-  const [user, setUser] = useState(null)
+  const [cartItems, setCartItems] = useState([]);
+   global.useGetUser = useGetUser;
   return (
-    <AppRoutes user={user} setUser={setUser} />
-
+      <UserProvider>
+        <CartProvider>
+          <AppRoutes />
+        </CartProvider>
+      </UserProvider>
   );
 }
 

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Navbar from "../components/layout/Navbar";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import Swal from 'sweetalert2';
 
 const RegisterPage = ({ setUser }) => {
   const [firstName, setFirstName] = useState("");
@@ -24,13 +25,22 @@ const RegisterPage = ({ setUser }) => {
         lastName,
         email,
         password,
+        confirmPassword,
       });
 
       const data = res.data;
       console.log(data);
 
       setUser(data); // Store only the data returned from the server
-      navigate("/LoginPage");
+
+      // Display a success message
+        Swal.fire({
+          title: 'Success!',
+          text: 'Your regisration was successful.',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        });
+      navigate("/login");
     } catch (err) {
       console.log(err.response.data);
       setError(err.response.data.message);
@@ -41,8 +51,8 @@ const RegisterPage = ({ setUser }) => {
     <div>
       <Navbar />
       <div className="register">
-        <h2>Welcome to</h2>
-        <img id="reg-img" src="../assets/img-51.png" width="auto" height="auto" alt="" />
+        <h1>Welcome to</h1>
+        <img id="reg-img" src="../assets/logo_3.png" width="auto" height="auto" alt="" />
         <p>Please fill out this form with the required informations</p>
         {error && <p>{error}</p>} {/* Display error messages */}
         <form onSubmit={handleSubmit}>

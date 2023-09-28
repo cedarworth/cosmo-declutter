@@ -2,42 +2,80 @@ import React, { useState } from "react";
 import Navbar from "../components/layout/Navbar";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import Swal from "sweetalert2";
+import { useUser } from "../providers/UserProvider";
+import { global } from "../hooks/UseGetUser";
 
-const LoginPage = ({ setUser }) => {
+const LoginPage = () => {
   const navigate = useNavigate();
   const [emailInput, setEmailInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
-  const [error, setError] = useState("")
+  const [error, setError] = useState("");
+  const { setUser } = useUser();
+
+  const { useGetUser } = global;
+
+  console.log(useGetUser);
 
   const handleSubmit = async (e) => {
-    try {
-      e.preventDefault();
+    const fetchUser = async () => {
+      try {
+        e.preventDefault();
 
-      const res = await axios.post("http://localhost:4000/api/auth/login", {
-        email: emailInput,
-        password: passwordInput,
-      });
+        const res = await axios.post("http://localhost:4000/api/auth/login", {
+          email: emailInput,
+          password: passwordInput,
+        });
 
-      const data = res.data;
-      console.log(data);
+        const data = res.data;
+        console.log(data);
 
-      setUser(data); // Store only the data returned from the server
-      navigate("/");
-    } catch (err) {
-      setError(err.response.data.message)
-    }
+
+
+         setUser(data); // Store only the data returned from the server
+
+        // Display a success message from sweetalert2
+        Swal.fire({
+          title: "Success!",
+          text: "Logged in successfully.",
+          icon: "success",
+          confirmButtonText: "OK",
+        });
+
+        // Navigate to the homepage
+        navigate("/");
+      } catch (err) {
+        setError(err.response.data.message);
+
+        // Display an error message from sweetalert2
+        Swal.fire({
+          title: "Error!",
+          text: "Make sure your data are correctly entered.",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+      }
+    };
+    fetchUser();
   };
 
   return (
     <div>
-      <Navbar />
+      <Navbar loginPage={true} />
+      <img id="log-img1" src="../assets/img-0.png" width="" height=""/>
       {/* <!--Login form--> */}
       <div className="login">
-        <h2>Welcome Back to</h2>
-        <img id="reg-img" src="../assets/img-51.png" width="auto" height="auto" alt="" />
+        <h1>Welcome Back to</h1>
+        <img
+          id="log-img"
+          src="../assets/logo_3.png"
+          width="auto"
+          height="auto"
+          alt=""
+        />
         <h3>Please Login</h3>
         <p>Kindly fill out the fields with the required information</p>
-        {error && <p>{error}</p>} {/* Display error messages */}
+        {error && <p>{error}</p>} {/*Display error messages*/}
         <form onSubmit={handleSubmit}>
           <fieldset>
             <label>
@@ -64,7 +102,7 @@ const LoginPage = ({ setUser }) => {
               />
             </label>
           </fieldset>
-          <input type="submit" value="login" />
+          <input onClick={() => {}} type="submit" value="login" />
           <p>
             Not yet registered? Please register <Link to="/register">here</Link>
           </p>

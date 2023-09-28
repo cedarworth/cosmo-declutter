@@ -1,5 +1,5 @@
 import React from 'react'
-import auth from '../components/hocs/Auth'
+// import auth from '../components/hocs/Auth'
 
 const ProductPage = () => {
   return (
@@ -7,4 +7,4 @@ const ProductPage = () => {
   )
 }
 
-export default auth(ProductPage)
+export default (ProductPage)

@@ -1,15 +1,16 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 
-const Auth = (Component) => {
-    const navigate = useNavigate()
-    return (props) => {
+const Auth = (App) => {
     
+    return (props) => {
+        const navigate = useNavigate();
         if (!props.user) {
-            navigate("/login")
+            navigate("/login");
+            return null;
         }
 
-        return <Component {...props} />
+        return <App {...props} />;
     }
 }
 
-export default Auth
+export default Auth;
