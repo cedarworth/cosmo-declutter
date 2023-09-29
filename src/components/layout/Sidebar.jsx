@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import "../../styles.css";
+import { useUser } from "../../providers/UserProvider";
 
 const Sidebar = ({ user }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,34 +20,21 @@ const Sidebar = ({ user }) => {
       )}
 
       <div className={`sidebar ${isOpen ? "open" : "close"}`}>
-        {/* <Link to="/">
-          <p>Home</p>
-        </Link>
-        <Link to="/about">
-          <p>About</p>
-        </Link>
-        <Link to="/news">
-          <p>News</p>
-        </Link>
-        <Link to="/testimonials">
-          <p>Testimonials</p>
-        </Link>
-        <Link to="/contact">
-          <p>Contact</p>
-        </Link> */}
         {user ? (
           <>
-            <Link to="/profile">
+          <Link to={`/${user}/profile`}>
               <p>Profile</p>
             </Link>
-            <Link to='/login'>
-              <p>Logout</p>
-            </Link>
+          <Link to="/login">
+            <p>Logout</p>
+          </Link>
           </>
         ) : (
-          <Link to="/login">
-            <p>Login</p>
-          </Link>
+          <>
+            <Link to='/login'>
+              <p>Login</p>
+            </Link>
+          </>
         )}
       </div>
     </div>

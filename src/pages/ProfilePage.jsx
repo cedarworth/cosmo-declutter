@@ -3,37 +3,38 @@ import axios from "axios";
 import "../styles.css";
 import Navbar from "../components/layout/Navbar";
 import { useUser } from "../providers/UserProvider";
-// import { useHistory } from "react-router-dom";
-import { global } from "../hooks/UseGetUser";
+import { PiSealWarningFill } from "react-icons/pi";
 
-
-function ProfilePage({ user_id }) {
-    // const history = useHistory();
-    const [userItem, setUserItem] = useState({
-    image: "",
+function ProfilePage({}) {
+  const [userItem, setUserItem] = useState({
     name: "",
     description: "",
     price: "",
     location: "",
   });
+  const [selectedFile, setSelectedFile] = useState(null);
 
- console.log(useGetUser)
+  const [errorObj, setErrorObj] = useState({
+    imageError: "",
+    nameError: "",
+    descriptionError: "",
+    priceError: "",
+    locationError: "",
+  });
 
   const { user } = useUser();
 
-  const UploadItem = (e) => {
-    e.preventDefault();
-    axios
-      .post("http://localhost:4000/api/auth", userItem)
-      .then((response) => {
-        console.log(response);
-        // history.push("/product", { data: userItem });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-  
+  // const UploadItem = (e) => {
+  //   e.preventDefault(); // Prevent the default form submission
+  //   axios
+  //     .post("http://localhost:4000/api/auth", userItem)
+  //     .then((response) => {
+  //       console.log(response);
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //     });
+  // };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -43,77 +44,214 @@ function ProfilePage({ user_id }) {
     }));
   };
 
-  const handleImageUpload = (e) => {
-    setUserItem((prevState) => ({
+  const handleValiation = () => {
+    let imageError = "";
+    let nameError = "";
+    let descriptionError = "";
+    let priceError = "";
+    let locationError = "";
+
+    if (!userItem.name) {
+      nameError = "Please enter a name";
+    } else if (userItem.name.length < 3) {
+      nameError = "Name must be at least 3 characters long";
+    }
+    if (!userItem.description) {
+      descriptionError = "Please enter a description";
+    } else if (userItem.description.length < 5) {
+      descriptionError = "Description must be at least 5 characters long";
+    }
+    if (!userItem.price) {
+      priceError = "Please enter a price";
+    } else if (userItem.price < 0) {
+      priceError = "Price must be a positive number";
+    }
+    if (!userItem.location) {
+      locationError = "Please enter a location";
+    } else if (userItem.location.length < 3) {
+      locationError = "Location must be at least 3 characters long";
+    }
+    if (
+      imageError ||
+      nameError ||
+      descriptionError ||
+      priceError ||
+      locationError
+    ) {
+      setErrorObj((prevState) => ({
+        ...prevState,
+        imageError,
+        nameError,
+        descriptionError,
+        priceError,
+        locationError,
+      }));
+      return false;
+    }
+    setErrorObj((prevState) => ({
       ...prevState,
-      image: URL.createObjectURL(e.target.files[0]),
+      imageError,
+      nameError,
+      descriptionError,
+      priceError,
+      locationError,
     }));
+    return true;
   };
 
-  useEffect(() => {
-    fetch(`http://localhost:4000/api/auth/${user_id}`)
-      .then((response) => response.json())
-      .then((data) => setUserItem(data))
-      .catch((error) => console.error("Error:", error));
-  }, [user_id]);
+  const handleImageUpload = (e) => {
+    if (!e.target.files || e.target.files.length === 0) {
+      setSelectedFile(undefined);
+      return;
+    }
+    if (
+      e.target.files[0].type === "image/png" ||
+      e.target.files[0].type === "image/jpeg"
+    ) {
+      setSelectedFile(e.target.files[0]);
+      setErrorObj((prevState) => ({
+        ...prevState,
+        imageError: "",
+      }));
+    } else {
+      // setSelectedFile(undefined)
+      setErrorObj((prevState) => ({
+        ...prevState,
+        imageError: "Please upload a valid image file",
+      }));
+    }
+  };
 
-  // const userName = useMemo(() => {
-  //   if (user) {
-  //     return user.user.name;
-  //   }
-  // }, [user]);
+  // useEffect(() => {
+  //   fetch(`http://localhost:4000/api/auth/${user_id}`)
+  //     .then((response) => response.json())
+  //     .then((data) => setUserItem(data))
+  //     .catch((error) => console.error("Error:", error));
+  // }, [user_id]);
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const valid = handleValiation();
+    if (!valid) {
+      return;
+    }
+    // const formData = {
+    //   image: selectedFile,
+    //   name: userItem.name,
+    //   description: userItem.description,
+    //   price: userItem.price,
+    //   location: userItem.location
+    // }
+
+    const formData = new FormData();
+    formData.append("image", selectedFile);
+    formData.append("name", userItem.name);
+    formData.append("description", userItem.description);
+    formData.append("price", userItem.price);
+    formData.append("location", userItem.location);
+
+    axios
+      .post("http://localhost:4000/api/product/addProduct", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
   return (
     <>
       <Navbar />
-      <div className="user-profile">
-        <h2>{`${""}'s Declutter Corner`}</h2>
-        <h3>You can upload an Item for sale here:</h3>
-        <form onSubmit={UploadItem}>
-          <label>
-            Image:
-            <input type="file" onChange={handleImageUpload} />
-            {userItem.image && <img src={userItem.image} alt="Preview" />}
-          </label>
-          {/* Other form fields */}
-          <label>
-          Name:
-          <input
-            type="text"
-            name="name"
-            value={userItem.name}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Description:
-          <textarea
-            name="description"
-            value={userItem.description}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Price:
-          <input
-            type="number"
-            name="price"
-            value={userItem.price}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Location:
-          <input
-            type="text"
-            name="location"
-            value={userItem.location}
-            onChange={handleChange}
-          />
-        </label>
-        <button type="submit">Submit</button>
-        </form>
-      </div>
+      {user.firstName === undefined ? (
+        "Loading..."
+      ) : (
+        <>
+          <div className="user-profile">
+            <h2>{`${user.firstName}'s Declutter Corner`}</h2>
+            <h3>You can upload an Item for sale here:</h3>
+            <form onSubmit={onSubmit} enctype="multipart/form-data">
+              <label>
+                Image:
+                <input type="file" onChange={handleImageUpload} name="image" />
+                {/* {userItem.image && <img src={userItem.image} alt="Preview" />} */}
+              </label>
+              {errorObj.imageError && (
+                <span className="error">
+                  <PiSealWarningFill />
+                  {errorObj.imageError}
+                </span>
+              )}
+              {/* Other form fields */}
+              <label>
+                Name:
+                <input
+                  type="text"
+                  name="name"
+                  value={userItem.name}
+                  onChange={handleChange}
+                />
+              </label>
+              {errorObj.nameError && (
+                <span className="error">
+                  <PiSealWarningFill />
+                  {errorObj.nameError}
+                </span>
+              )}
+              <label>
+                Description:
+                <textarea
+                  name="description"
+                  value={userItem.description}
+                  onChange={handleChange}
+                />
+              </label>
+              {errorObj.descriptionError && (
+                <span className="error">
+                  <PiSealWarningFill />
+                  {errorObj.descriptionError}
+                </span>
+              )}
+              <label>
+                Price:
+                <input
+                  type="number"
+                  name="price"
+                  value={userItem.price}
+                  onChange={handleChange}
+                />
+              </label>
+              {errorObj.priceError && (
+                <span className="error">
+                  <PiSealWarningFill />
+                  {errorObj.priceError}
+                </span>
+              )}
+              <label>
+                Location:
+                <input
+                  type="text"
+                  name="location"
+                  value={userItem.location}
+                  onChange={handleChange}
+                />
+              </label>
+              {errorObj.locationError && (
+                <span className="error">
+                  <PiSealWarningFill />
+                  {errorObj.locationError}
+                </span>
+              )}
+              <button type="submit">Submit</button>
+            </form>
+          </div>
+          {/* <button type="submit">Submit</button> */}
+        </>
+      )}
     </>
   );
 }

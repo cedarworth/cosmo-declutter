@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useUser } from "../providers/UserProvider";
-import { global } from "../hooks/UseGetUser";
+// import { global } from "../hooks/UseGetUser";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -13,9 +13,9 @@ const LoginPage = () => {
   const [error, setError] = useState("");
   const { setUser } = useUser();
 
-  const { useGetUser } = global;
+  // const { useGetUser } = global;
 
-  console.log(useGetUser);
+  // console.log(useGetUser);
 
   const handleSubmit = async (e) => {
     const fetchUser = async () => {
@@ -30,9 +30,8 @@ const LoginPage = () => {
         const data = res.data;
         console.log(data);
 
-
-
          setUser(data); // Store only the data returned from the server
+         console.log(data);
 
         // Display a success message from sweetalert2
         Swal.fire({
@@ -43,7 +42,7 @@ const LoginPage = () => {
         });
 
         // Navigate to the homepage
-        navigate("/");
+        navigate(`/${data.user.id}/home`);
       } catch (err) {
         setError(err.response.data.message);
 

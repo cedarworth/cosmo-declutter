@@ -11,11 +11,11 @@ import ProductPage from "./pages/ProductPage";
 const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="/" element={<Homepage />} />
+      <Route path="/home" element={<Homepage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/cart" element={<CartPage />} />
-      <Route path="/profile" element={<ProfilePage/>} />
+      <Route path="/:_id/profile" element={<ProfilePage/>} />
       <Route path="/checkout" element={<CheckoutPage />} />
       <Route path="/product" element={<ProductPage />} />
       {/* <Route path='*' element={<h1>Error 404: Page not found</h1>} /> */}

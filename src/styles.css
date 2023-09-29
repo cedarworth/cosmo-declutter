@@ -563,18 +563,27 @@ textarea {
   display: flex;
 }
 
-.footer-dir {
+.footer-dir p {
   text-decoration: none;
   color: white;
   font-weight: 30px;
 }
-/* .bi-facebook, .bi-instagram, .bi-twitter, .bi-youtube {
-  color: white; 
-}*/
 
 .socials {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
   width: 20%;
+}
+
+.socials i {
+  font-size: 20px;
+  color: white;
+}
+
+.error{
+  color: red;
+  display: flex;
+  gap: 0.3em;
+  align-items: center;
 }

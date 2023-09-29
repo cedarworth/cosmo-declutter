@@ -1,29 +1,15 @@
 import React, { useState } from 'react';
 import '../styles.css';
-// import { useHistory } from "react-router-dom";
 import { useCart } from '../providers/CartProvider';
 
-function ProductCard() {
-  // const [inCart, setInCart] = useState(0);
+function ProductCard({name, description, price, image, location}) {
   const {cart, setCart} = useCart()
-  // const history = useHistory();
-
-
-
-  const product = {
-        id: 1,
-        image: '../assets/img-4.jpg',
-        name: 'Tablet',
-        description: 'This is a 14inches tablet',
-        price: 10000,
-        location: 'Ibeju lekki',
-  };
 
   const [count, setCount] = useState(0);
 
     const addToCart = () => {
         setCount(count + 1);
-        setCart([...cart, product])
+        setCart([...cart])
     };
 
     const removeFromCart = () => {
@@ -34,12 +20,13 @@ function ProductCard() {
 
   return (
     <div className="card">
-      <img src={product.image} alt="Product" />
+      <img src={image} alt="Product" />
+      {image && <img src={image} alt="Preview" />}
       <div className="info">
-        <h2>{product.name}</h2>
-        <p>{product.description}</p>
-        <p>{product.price}</p>
-        <p>Location: {product.location}</p>
+        <h2>{name}</h2>
+        <p>{description}</p>
+        <p>{price}</p>
+        <p>{location}</p>
         <div className="buttons">
             <i class="bi bi-cart4">Add tocart:</i>
             <div className="quantity">

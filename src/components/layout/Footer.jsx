@@ -5,10 +5,10 @@ import '../../styles.css'
 const Footer = () => {
   return (
       <div className="footer">
-        <div className="footer-dir"><Link to="#Testimonials">About</Link></div>
-        <div className="footer-dir"><Link to="#NewsPage">News</Link></div>
-        <div className="footer-dir"><Link to="#Testimonials">Testimonials</Link></div>
-        <div className="footer-dir"><Link to="#Testimonials">Contact</Link></div>
+        <div className="footer-dir"><Link to="#Testimonials"><p>About</p></Link></div>
+        <div className="footer-dir"><Link to="#NewsPage"><p>News</p></Link></div>
+        <div className="footer-dir"><Link to="#Testimonials"><p>Testimonials</p></Link></div>
+        <div className="footer-dir"><Link to="#Testimonials"><p>Contact</p></Link></div>
     
         <div className="socials">
           <Link to="#Facebook"><i className="bi bi-facebook"></i></Link>
