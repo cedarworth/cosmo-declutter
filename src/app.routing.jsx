@@ -7,15 +7,26 @@ import CartPage from "./pages/CartPage";
 import ProfilePage from "./pages/ProfilePage";
 import CheckoutPage from "./pages/CheckoutPage";
 import ProductPage from "./pages/ProductPage";
+import { useUser } from "./providers/UserProvider";
+import ProtectedRoute from "./components/hocs/ProtectedRoute";
 
 const AppRoutes = () => {
+  const { isAuthenticated } = useUser();
+  console.log(isAuthenticated);
   return (
     <Routes>
-      <Route path="/home" element={<Homepage />} />
+      <Route path={"/home"} element={<Homepage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/cart" element={<CartPage />} />
-      <Route path="/:_id/profile" element={<ProfilePage/>} />
+      <Route
+        path="/profile"
+        element={
+          <ProtectedRoute isAuthenticated={isAuthenticated}>
+            <ProfilePage />
+          </ProtectedRoute>
+        }
+      />
       <Route path="/checkout" element={<CheckoutPage />} />
       <Route path="/product" element={<ProductPage />} />
       {/* <Route path='*' element={<h1>Error 404: Page not found</h1>} /> */}

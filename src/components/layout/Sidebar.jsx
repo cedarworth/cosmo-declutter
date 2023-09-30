@@ -3,9 +3,10 @@ import React, { useState } from "react";
 import "../../styles.css";
 import { useUser } from "../../providers/UserProvider";
 
-const Sidebar = ({ user }) => {
+const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+  const { user, setUser, setIsAuthenticated, isAuthenticated } = useUser();
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -22,10 +23,10 @@ const Sidebar = ({ user }) => {
       <div className={`sidebar ${isOpen ? "open" : "close"}`}>
         {user ? (
           <>
-          <Link to={`/${user}/profile`}>
+          <Link to="/profile" onClick={()=>{setUser({user}); setIsAuthenticated(true)}}>
               <p>Profile</p>
             </Link>
-          <Link to="/login">
+          <Link to="/login" onClick={()=>{setUser({}); setIsAuthenticated(false)}}>
             <p>Logout</p>
           </Link>
           </>

@@ -92,6 +92,7 @@ const RegisterPage = ({ setUser }) => {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
+            <span>Alphabets and numbers, at least 8characters long</span>
             <label htmlFor="confirm-password">Confirm Your Password:</label>
             <input
               id="confirm-password"

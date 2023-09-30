@@ -7,7 +7,7 @@ import "../styles.css";
 import { useCart } from "../providers/CartProvider";
 import Footer from "../components/layout/Footer";
 
-const Homepage = ({ user }) => {
+const Homepage = () => {
   const navigate = useNavigate();
   const { cart, setCart } = useCart();
 
@@ -20,13 +20,16 @@ const Homepage = ({ user }) => {
         setProducts(response.data);
       })
       .catch((error) => {
-        console.error(error);
+        console.log(error);
       });
   }, []);
 
   return (
     <div>
       <Navbar />
+      <div className="home-top">
+        <img src="" alt="" />
+      </div>
       <div className="shop" id="shop">
         {products.map((product) => {
           return (
@@ -36,8 +39,9 @@ const Homepage = ({ user }) => {
               name={product.name}
               price={product.price}
               description={product.description}
-              image={product.image}
+              image={product.imgLink.filename}
               location={product.location}
+              product={product}
             />
           );
         })}

@@ -7,7 +7,8 @@ const UserProvider = ({children}) => {
   const path = window.location.pathname;
   const id = path.split('/')[1];
 
-  const [user, setUser] = useState({})
+  const [user, setUser] = useState({});
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -23,7 +24,7 @@ const UserProvider = ({children}) => {
   }
   , [id]);
     
-  return <UserContext.Provider value={{user, setUser}}>{children}</UserContext.Provider>;
+  return <UserContext.Provider value={{user, setUser, isAuthenticated, setIsAuthenticated}}>{children}</UserContext.Provider>;
 }
 
 export const useUser = () => useContext(UserContext)

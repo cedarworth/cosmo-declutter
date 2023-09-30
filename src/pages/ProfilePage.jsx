@@ -1,11 +1,13 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+// import { useNavigate } from "react-router-dom";
 import "../styles.css";
 import Navbar from "../components/layout/Navbar";
 import { useUser } from "../providers/UserProvider";
 import { PiSealWarningFill } from "react-icons/pi";
 
-function ProfilePage({}) {
+function ProfilePage() {
+  // const [navigate] = useNavigate();
   const [userItem, setUserItem] = useState({
     name: "",
     description: "",
@@ -23,18 +25,16 @@ function ProfilePage({}) {
   });
 
   const { user } = useUser();
+  // console.log(user);
 
-  // const UploadItem = (e) => {
-  //   e.preventDefault(); // Prevent the default form submission
-  //   axios
-  //     .post("http://localhost:4000/api/auth", userItem)
-  //     .then((response) => {
-  //       console.log(response);
-  //     })
-  //     .catch((error) => {
-  //       console.error(error);
-  //     });
-  // };
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    const items = JSON.parse(localStorage.getItem('data'));
+    if (items) {
+    const retrievedData = setItems(items);
+    }
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -122,12 +122,6 @@ function ProfilePage({}) {
     }
   };
 
-  // useEffect(() => {
-  //   fetch(`http://localhost:4000/api/auth/${user_id}`)
-  //     .then((response) => response.json())
-  //     .then((data) => setUserItem(data))
-  //     .catch((error) => console.error("Error:", error));
-  // }, [user_id]);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -135,13 +129,6 @@ function ProfilePage({}) {
     if (!valid) {
       return;
     }
-    // const formData = {
-    //   image: selectedFile,
-    //   name: userItem.name,
-    //   description: userItem.description,
-    //   price: userItem.price,
-    //   location: userItem.location
-    // }
 
     const formData = new FormData();
     formData.append("image", selectedFile);
@@ -167,14 +154,14 @@ function ProfilePage({}) {
   return (
     <>
       <Navbar />
-      {user.firstName === undefined ? (
-        "Loading..."
+      {Object.keys(user) < 1 ? (
+        "Loading..." 
       ) : (
         <>
           <div className="user-profile">
-            <h2>{`${user.firstName}'s Declutter Corner`}</h2>
+            <h2>{`${user}'s Declutter Corner`}</h2>
             <h3>You can upload an Item for sale here:</h3>
-            <form onSubmit={onSubmit} enctype="multipart/form-data">
+            <form onSubmit={onSubmit} encType="multipart/form-data">
               <label>
                 Image:
                 <input type="file" onChange={handleImageUpload} name="image" />
@@ -255,4 +242,5 @@ function ProfilePage({}) {
     </>
   );
 }
+
 export default ProfilePage;

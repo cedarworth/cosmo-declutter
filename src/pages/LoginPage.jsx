@@ -1,21 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../components/layout/Navbar";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useUser } from "../providers/UserProvider";
-// import { global } from "../hooks/UseGetUser";
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const [emailInput, setEmailInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
   const [error, setError] = useState("");
-  const { setUser } = useUser();
-
-  // const { useGetUser } = global;
-
-  // console.log(useGetUser);
+  const { setIsAuthenticated, user } = useUser();
+  // const [data, setData] = useState([]);
 
   const handleSubmit = async (e) => {
     const fetchUser = async () => {
@@ -29,9 +25,9 @@ const LoginPage = () => {
 
         const data = res.data;
         console.log(data);
-
-         setUser(data); // Store only the data returned from the server
-         console.log(data);
+        localStorage.setItem('data', JSON.stringify(data));
+      
+        //  setUser(data); // Store only the data returned from the server
 
         // Display a success message from sweetalert2
         Swal.fire({
@@ -40,9 +36,10 @@ const LoginPage = () => {
           icon: "success",
           confirmButtonText: "OK",
         });
-
+        
         // Navigate to the homepage
-        navigate(`/${data.user.id}/home`);
+        navigate(`/home`);
+        setIsAuthenticated(true);
       } catch (err) {
         setError(err.response.data.message);
 
@@ -57,6 +54,13 @@ const LoginPage = () => {
     };
     fetchUser();
   };
+
+  // useEffect(() => {
+  //   const saveData = () => {
+  //   localStorage.setItem('data', JSON.stringify(data));
+  //   };
+  //   saveData();
+  // }, [data]);
 
   return (
     <div>

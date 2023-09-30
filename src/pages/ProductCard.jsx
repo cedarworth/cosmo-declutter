@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import '../styles.css';
 import { useCart } from '../providers/CartProvider';
 
-function ProductCard({name, description, price, image, location}) {
+function ProductCard({name, description, price, image, location, product}) {
   const {cart, setCart} = useCart()
 
   const [count, setCount] = useState(0);
 
     const addToCart = () => {
         setCount(count + 1);
-        setCart([...cart])
+        setCart([...cart, product])
+        console.log(cart)
     };
 
     const removeFromCart = () => {
@@ -20,8 +21,8 @@ function ProductCard({name, description, price, image, location}) {
 
   return (
     <div className="card">
-      <img src={image} alt="Product" />
-      {image && <img src={image} alt="Preview" />}
+      <img src={`/assets/${image}`} alt="Product" />
+      {/* {image && <img src={image} alt="Preview" />} */}
       <div className="info">
         <h2>{name}</h2>
         <p>{description}</p>
