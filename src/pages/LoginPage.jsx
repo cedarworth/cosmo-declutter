@@ -24,8 +24,12 @@ const LoginPage = () => {
         });
 
         const data = res.data;
-        console.log(data);
-        localStorage.setItem('data', JSON.stringify(data));
+        // console.log(data);
+        function storeData(key, data) {
+          localStorage.setItem(key, JSON.stringify(data));
+      }
+      
+        // localStorage.setItem('poolKey', JSON.stringify(data));
       
         //  setUser(data); // Store only the data returned from the server
 

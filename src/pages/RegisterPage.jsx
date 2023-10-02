@@ -41,9 +41,18 @@ const RegisterPage = ({ setUser }) => {
           confirmButtonText: 'OK'
         });
       navigate("/login");
+
     } catch (err) {
       console.log(err.response.data);
       setError(err.response.data.message);
+
+      // Display an error message
+        Swal.fire({
+          title: 'Error!',
+          text: 'Make sure all the fields are correctly entered and your passwords fields matches.',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });
     }
   };
 

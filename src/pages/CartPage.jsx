@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Navbar from "../components/layout/Navbar";
 import { useCart } from "../providers/CartProvider";
+import { Link } from "react-router-dom";
 
 const CartPage = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -31,12 +32,15 @@ const CartPage = () => {
     <div>
     <Navbar />
     <div className="top-cart">
-      <h3>Here are your selected items for purchase</h3>
       {cart.length === 0 ? (
-        <p>Your cart is empty.</p>
+        <>
+        <h3>Your cart is empty.</h3>
+        <Link to="/home"><button className="top-cart-but">Return Home</button></Link>
+        </>
       ) : (
         uniqueCart.map((item, index) => (
-          <>
+        <>
+        <h1>Here are your selected items for purchase</h1>
         <div className="cart-grid">
             <div className="cart-inner">
             <div className="cart_item_img">
@@ -51,7 +55,7 @@ const CartPage = () => {
                 <>
                 <p>Total: {checkForDuplicates(item._id) * item.price}</p>
                 <button onClick={() => handleRemoveFromCart(item.id)}>
-                  Remove from CartPage
+                  Remove from CartPage 
                 </button>
                 </>
                ) : (

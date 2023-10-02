@@ -5,9 +5,11 @@ import "../styles.css";
 import Navbar from "../components/layout/Navbar";
 import { useUser } from "../providers/UserProvider";
 import { PiSealWarningFill } from "react-icons/pi";
+// import LoginPage from "./LoginPage";
 
 function ProfilePage() {
   // const [navigate] = useNavigate();
+  const { user } = useUser();
   const [userItem, setUserItem] = useState({
     name: "",
     description: "",
@@ -24,18 +26,30 @@ function ProfilePage() {
     locationError: "",
   });
 
-  const { user } = useUser();
+  function retrieveData(key) {
+    const data = localStorage.getItem(key);
+    return data ? JSON.parse(data) : null;
+}
+
+  const [data, setData] = useState(null);
+
+    useEffect(() => {
+        const storedData = retrieveData('myKey');
+        if (storedData) {
+            setData(storedData);
+        }
+    }, []);
+
   // console.log(user);
 
-  const [items, setItems] = useState([]);
+  // const [items, setItems] = useState([]);
 
-  useEffect(() => {
-    const items = JSON.parse(localStorage.getItem('data'));
-    if (items) {
-    const retrievedData = setItems(items);
-    }
-  }, []);
 
+    // let basket = JSON.parse(localStorage.getItem('data'));
+    // let storedUser = basket.map((x) => { return basket[2].user});
+    // console.log(storedUser);
+
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUserItem((prevState) => ({
@@ -154,12 +168,12 @@ function ProfilePage() {
   return (
     <>
       <Navbar />
-      {Object.keys(user) < 1 ? (
+      {/* {Object.keys(user) < 1 ? (
         "Loading..." 
-      ) : (
+      ) : ( */}
         <>
           <div className="user-profile">
-            <h2>{`${user}'s Declutter Corner`}</h2>
+            <h2>{`${user.storedData}'s Declutter Corner`}</h2>
             <h3>You can upload an Item for sale here:</h3>
             <form onSubmit={onSubmit} encType="multipart/form-data">
               <label>
@@ -238,9 +252,8 @@ function ProfilePage() {
           </div>
           {/* <button type="submit">Submit</button> */}
         </>
-      )}
+      {/* ) */}
     </>
   );
 }
-
 export default ProfilePage;
